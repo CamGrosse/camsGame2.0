@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Media;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,15 +13,22 @@ namespace camsGame2._0
 {
     public partial class GameScreen : UserControl
     {
+        int fails = 0;
+
+        SoundPlayer twitch = new SoundPlayer(Properties.Resources.ricochet);
+
         SolidBrush blackBrush = new SolidBrush(Color.Black);
-        SolidBrush redBrush= new SolidBrush(Color.Red);
-        SolidBrush yellowBrush= new SolidBrush(Color.Yellow);
+        SolidBrush redBrush = new SolidBrush(Color.Red);
+        SolidBrush yellowBrush = new SolidBrush(Color.Yellow);
+        SolidBrush greeenBrush = new SolidBrush(Color.Green);
+
         player hero;
+        winnings win;
+
         Boolean leftArrowdown, rightArrowdown, upArrowDown, downArrowDown;
         List<Balls> balls = new List<Balls>();
-        List<Balls> balls2= new List<Balls>();
-        List<Wall> walls = new List<Wall>();
 
+        List<Wall> walls = new List<Wall>();
 
         public GameScreen()
         {
@@ -29,54 +37,48 @@ namespace camsGame2._0
         }
         public void InitializeGame()
         {
-            hero = new player(150, 210);
-            Wall newWall = new Wall(100, 175, 175, 2);
-            walls.Add(newWall);
+            hero = new player(150, 225);
 
-            newWall = new Wall(100, 300, 350, 2);
+            win = new winnings(450, 175, 2, 127);
+            //bottom wall
+            Wall newWall = new Wall(100, 300, 350, 2);
             walls.Add(newWall);
-
+            //left wall
             newWall = new Wall(100, 175, 2, 125);
             walls.Add(newWall);
-
-            newWall = new Wall(275, 150, 2, 27);
+            //top wall
+            newWall = new Wall(100, 175, 350, 2);
             walls.Add(newWall);
 
-            newWall = new Wall(275, 150, 35, 2);
-            walls.Add(newWall);
 
-            newWall = new Wall(310, 150, 2, 27);
-            walls.Add(newWall);
-
-            newWall = new Wall(310, 175, 140, 2);
-            walls.Add(newWall);
-
-            newWall = new Wall(450, 175, 2,127);
-            walls.Add(newWall);
-
-            Balls newBall = new Balls(230, 220,5, 5);
+            Balls newBall = new Balls(230, 220, 5, 5);
             balls.Add(newBall);
-            newBall = new Balls(200,180, 5, 5);
-            balls.Add(newBall);
-          
-            
-            newBall = new Balls(230, 159, 5, 0);
-            balls.Add(newBall);
-            newBall = new Balls(200, 200, 5, 0);
+            newBall = new Balls(200, 180, 5, 5);
             balls.Add(newBall);
 
 
+            newBall = new Balls(250, 200, 0, 5);
+            balls.Add(newBall);
+            newBall = new Balls(250, 250, 0, 1);
+            balls.Add(newBall);
+            newBall = new Balls(300, 250, -5, -5);
+            balls.Add(newBall);
+            newBall = new Balls(250, 250, -5, -5);
+            balls.Add(newBall);
+
+        }
+        public void GameOverWin()
+        {
+            Form1.ChangeScreen(this, new winningScreem());
         }
         private void gameEngine_Tick(object sender, EventArgs e)
         {
+            failsLabal.Text = $"Fails: {fails}";
             foreach (Balls b in balls)
             {
-                b.Move( 0,this.Height);
+                b.Move(0, this.Height);
             }
-            foreach (Balls b in balls2)
-            {
-                b.Move(this.Width,0);
-            }
+
 
             if (upArrowDown && hero.y > 0)
             {
@@ -97,18 +99,36 @@ namespace camsGame2._0
             }
 
 
-          
+
             foreach (Balls b in balls)
             {
                 foreach (Wall walls in walls)
                 {
                     b.Collision(walls);
+
                 }
             }
-            foreach(Balls b in balls)
-            { hero.Collision(b);
+            foreach (Balls b in balls)
+            {
+                if (hero.Collision(b))
+                {
+                    twitch.Play();
+                    fails++;
+                }
             }
+            foreach (Wall w in walls)
+            {
+                if (hero.Collision(w))
+                {
+                    fails++;
+                }
 
+            }
+            if (hero.Collision(win))
+            {
+                gameEngine.Enabled = false;
+                GameOverWin();
+            }
             Refresh();
         }
 
@@ -125,8 +145,11 @@ namespace camsGame2._0
             }
             foreach (Balls b in balls)
             {
-                e.Graphics.FillEllipse(yellowBrush, b.x, b.y, b.size, b.size);
+                e.Graphics.FillEllipse(blackBrush, b.x, b.y, b.size, b.size);
             }
+
+
+            e.Graphics.FillRectangle(greeenBrush, win.x, win.y, win.width, win.height);
 
             e.Graphics.FillRectangle(redBrush, hero.x, hero.y, hero.width, hero.height);
 

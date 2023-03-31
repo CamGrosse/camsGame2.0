@@ -29,12 +29,20 @@ namespace camsGame2._0
             {
                 UserControl current = (UserControl)sender; 
                 f = current.FindForm();                     
-                f.Controls.Remove(current);                
+                f.Controls.Remove(current);
+
+                next.Location = new Point((f.ClientSize.Width - next.Width) / 2,
+                (f.ClientSize.Height - next.Height) / 2);
             }
          
 
            f.Controls.Add(next);
            next.Focus();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

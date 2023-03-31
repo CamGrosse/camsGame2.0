@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Balls.cs" />
+    <Compile Include="winnings.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +70,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="walls.cs" />
+    <Compile Include="winningScreem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="winningScreem.Designer.cs">
+      <DependentUpon>winningScreem.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,7 +93,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="winningScreem.resx">
+      <DependentUpon>winningScreem.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -99,6 +110,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Web capture_23-3-2023_9293_www.bing.com.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\happMan.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Web capture_24-3-2023_92948_www.bing.com.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Web_capture_24_3_2023_92948_www_bing_com.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Web capture_24-3-2023_93721_www.bing.com.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shotgun_Blast-Jim_Rogers-1914772763.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Twitch-SoundBible.com-307468671.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ricochet Of A Bullet-SoundBible.com-377161548.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_Sec_Crowd_Cheer-Mike_Koenig-1562033255.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
